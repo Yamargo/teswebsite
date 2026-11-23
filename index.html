@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orbita Play · Demo casino</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0b14;--bg2:#121428;--card:#171a33;--line:#262a4a;--ink:#eef0ff;--mute:#9aa0c4;--gold:#ffc94d;--violet:#7b5cff;--teal:#2fd3c0;--pink:#ff5c9a}
+*{box-sizing:border-box;min-width:0}[hidden]{display:none!important}
+html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}
+/* test bar */
+.tbar{background:#b8f5d0;color:#0b3d24;font-size:13px}
+.tbar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-block:7px}
+.tbar b{font-weight:700}.tbar code{background:#0b3d2414;padding:1px 6px;border-radius:5px;font-size:12px;overflow-wrap:anywhere}
+.tbar button,.tbar select{background:#0b3d24;color:#fff;border-radius:7px;padding:5px 10px;font-size:12.5px;border:0;min-height:30px}
+.tbar select{background:#fff;color:#0b3d24;border:1px solid #0b3d2433}
+.tbar .sp{flex:1}
+/* header */
+header{position:sticky;top:0;z-index:20;background:#0a0b14e6;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:22px;min-height:68px}
+.logo{display:flex;align-items:center;gap:10px;font:800 22px Outfit,sans-serif;letter-spacing:.2px;text-decoration:none}
+.logo i{width:34px;height:34px;border-radius:50%;background:conic-gradient(from 200deg,var(--gold),var(--pink),var(--violet),var(--teal),var(--gold));box-shadow:0 0 0 3px #ffffff12,0 0 22px #7b5cff66;position:relative}
+.logo i::after{content:'';position:absolute;inset:9px;border-radius:50%;background:var(--bg)}
+nav.main{display:flex;gap:4px;flex-wrap:wrap}
+nav.main a{text-decoration:none;color:var(--mute);font-weight:500;padding:8px 12px;border-radius:10px}
+nav.main a:hover,nav.main a.on{color:var(--ink);background:var(--bg2)}
+.acct{margin-left:auto;display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:12px;font-weight:600;text-decoration:none}
+.btn.gold{background:linear-gradient(180deg,#ffd76e,#f5b22e);color:#2a1a00;box-shadow:0 6px 20px #ffc94d33}
+.btn.ghost{border:1px solid var(--line);background:var(--bg2)}
+.pl{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 5px}
+.pl span{width:34px;height:34px;border-radius:50%;background:var(--violet);display:grid;place-items:center;font-weight:700;font-size:13px}
+.pl small{display:block;color:var(--mute);font-size:12px;line-height:1.2}.pl b{font-size:14px;line-height:1.2}
+/* hero */
+.hero{position:relative;margin-top:24px;border-radius:28px;overflow:hidden;min-height:360px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);background:radial-gradient(120% 140% at 0% 0%,#2a1f6b,#121428 55%,#0a0b14)}
+.hero .txt{padding:clamp(28px,5vw,56px);display:flex;flex-direction:column;justify-content:center;gap:14px;position:relative;z-index:1}
+.tag{align-self:flex-start;background:#ffc94d1f;color:var(--gold);border:1px solid #ffc94d55;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600}
+.hero h1{font:800 clamp(34px,5vw,56px)/1.02 Outfit,sans-serif;margin:0;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{margin:0;color:#c9cdf0;max-width:44ch;font-size:17px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.hero svg.art{width:100%;height:100%;min-height:300px}
+@media(prefers-reduced-motion:no-preference){.spin{animation:spin 40s linear infinite;transform-origin:250px 200px}@keyframes spin{to{transform:rotate(360deg)}}}
+/* categories + games */
+.cats{display:flex;gap:8px;overflow-x:auto;padding:26px 0 6px;scrollbar-width:none}
+.cats button{flex:none;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--mute);font-weight:600;min-height:44px}
+.cats button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cats svg{width:18px;height:18px}
+h2{font:700 24px Outfit,sans-serif;margin:28px 0 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+h2 small{font:500 14px Inter,sans-serif;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
+.game{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;isolation:isolate;text-align:left;border:1px solid #ffffff10}
+.game svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.game b{font:700 16px/1.15 Outfit,sans-serif;text-shadow:0 2px 10px #0008}.game small{color:#ffffffc0;font-size:12px}
+.game .rtp{position:absolute;top:10px;left:10px;background:#0009;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:600}
+.game .play{position:absolute;inset:0;display:grid;place-items:center;background:#0a0b14b3;opacity:0;transition:opacity .15s;font-weight:700}
+.game:hover .play,.game:focus-visible .play{opacity:1}
+/* promos */
+.promos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
+.promo{border-radius:20px;padding:22px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.promo .k{font:800 30px Outfit,sans-serif;color:var(--gold)}.promo p{margin:0;color:var(--mute)}
+/* support */
+.support{margin:36px 0 0;border-radius:24px;padding:clamp(22px,4vw,40px);background:linear-gradient(120deg,#103b36,#121428 70%);border:1px solid #2fd3c033;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
+.support h3{font:700 26px Outfit,sans-serif;margin:0 0 6px}.support p{margin:0;color:#c9d6e6;max-width:60ch}
+.faq{display:grid;gap:8px;margin-top:16px}
+.faq details{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:0 16px}
+.faq summary{min-height:50px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+.faq p{margin:0 0 14px;color:var(--mute)}
+footer{margin-top:48px;border-top:1px solid var(--line);padding:28px 0 120px;color:var(--mute);font-size:14px}
+footer .wrap{display:grid;gap:12px}
+.age{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--pink);color:var(--pink);font-weight:800}
+.frow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.notice{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;z-index:30;max-width:90vw}
+.setup{margin-top:20px;border-radius:16px;padding:16px 18px;background:#3a1220;border:1px solid #ff5c9a66}
+.setup b{color:#ffb3cd}.setup code{background:#0006;padding:2px 6px;border-radius:5px}
+@media(max-width:900px){nav.main{display:none}.hero{grid-template-columns:1fr}.hero svg.art{min-height:200px;max-height:240px}.support{grid-template-columns:1fr}}
+@media(max-width:600px){#login2{display:none}#logout{padding:0 12px}.pl small{display:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tbar .sp{display:none}}
+</style>
+</head>
+<body>
+<div class="tbar" role="region" aria-label="Painel de teste do SAC"><div class="wrap">
+ <b>Painel de teste do SAC</b>
+ <span>Servidor: <code id="tSrv">—</code></span>
+ <span>Linha: <select id="tLine" aria-label="Linha"></select></span>
+ <span class="sp"></span>
+ <button type="button" id="tOpen">SAC.open()</button>
+ <button type="button" id="tId">SAC.identify()</button>
+ <select id="tLang" aria-label="SAC.setLanguage()"><option value="">SAC.setLanguage…</option><option value="vi">vi</option><option value="ur">ur</option><option value="en">en</option><option value="zh">zh</option></select>
+</div></div>
+
+<header><div class="wrap">
+ <a class="logo" href="#"><i></i>Orbita Play</a>
+ <nav class="main" aria-label="Main"><a class="on" href="#games">Casino</a><a href="#games">Live</a><a href="#games">Crash</a><a href="#promos">Promotions</a><a href="#support">Support</a></nav>
+ <div class="acct" id="acct"></div>
+</div></header>
+
+<main class="wrap">
+ <div class="setup" id="setup" hidden>
+  <b>Widget not connected.</b> Set the SAC server address in <code>sac-config.js</code>, or open this page with
+  <code>?sac=https://YOUR-SAC.up.railway.app</code> in the address bar.
+ </div>
+
+ <section class="hero" aria-labelledby="h1">
+  <div class="txt">
+   <span class="tag">Demo site · no real money</span>
+   <h1 id="h1">Spin the <em>orbit</em>.<br>Win the night.</h1>
+   <p>Hundreds of slots, live tables and crash games in one place. Support in Tiếng Việt, Roman Urdu, English and 中文, any time.</p>
+   <div class="cta"><a class="btn gold" href="#games">Play now</a><button class="btn ghost" type="button" data-sac-open>Talk to support</button></div>
+  </div>
+  <svg class="art" viewBox="0 0 500 400" aria-hidden="true">
+   <defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#7b5cff" stop-opacity=".55"/><stop offset="1" stop-color="#7b5cff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd76e"/><stop offset="1" stop-color="#e59a12"/></linearGradient>
+    <linearGradient id="chip2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8ab8"/><stop offset="1" stop-color="#d52f74"/></linearGradient>
+    <linearGradient id="chip3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ff0de"/><stop offset="1" stop-color="#16a596"/></linearGradient></defs>
+   <circle cx="250" cy="200" r="190" fill="url(#glow)"/>
+   <g class="spin"><circle cx="250" cy="200" r="150" fill="none" stroke="#ffffff22" stroke-width="2" stroke-dasharray="4 10"/><circle cx="250" cy="200" r="110" fill="none" stroke="#ffffff18" stroke-width="2"/>
+    <circle cx="400" cy="200" r="9" fill="#ffc94d"/><circle cx="140" cy="122" r="6" fill="#2fd3c0"/><circle cx="250" cy="310" r="7" fill="#ff5c9a"/></g>
+   <g transform="translate(250 205)">
+    <ellipse cx="0" cy="66" rx="92" ry="16" fill="#000" opacity=".35"/>
+    <g transform="translate(-40 10)"><ellipse cx="0" cy="22" rx="56" ry="18" fill="#a66a07"/><ellipse cx="0" cy="12" rx="56" ry="18" fill="url(#chip)"/><ellipse cx="0" cy="12" rx="38" ry="12" fill="none" stroke="#fff6" stroke-width="3" stroke-dasharray="8 8"/></g>
+    <g transform="translate(46 -6)"><ellipse cx="0" cy="22" rx="50" ry="16" fill="#8f1d4d"/><ellipse cx="0" cy="12" rx="50" ry="16" fill="url(#chip2)"/><ellipse cx="0" cy="12" rx="33" ry="10" fill="none" stroke="#fff6" stroke-width="3" stroke-dasharray="7 7"/></g>
+    <g transform="translate(0 -48)"><ellipse cx="0" cy="22" rx="46" ry="15" fill="#0b6d63"/><ellipse cx="0" cy="12" rx="46" ry="15" fill="url(#chip3)"/><ellipse cx="0" cy="12" rx="30" ry="9" fill="none" stroke="#fff6" stroke-width="3" stroke-dasharray="7 7"/></g>
+   </g>
+  </svg>
+ </section>
+
+ <div class="cats" role="tablist" aria-label="Game categories" id="cats"></div>
+ <h2 id="games">Popular games <small id="gcount"></small></h2>
+ <div class="grid" id="grid"></div>
+
+ <h2 id="promos">Promotions</h2>
+ <div class="promos">
+  <div class="promo"><span class="k">Weekly race</span><p>Climb the leaderboard on selected slots. Demo content.</p></div>
+  <div class="promo"><span class="k">Free spins</span><p>Seasonal spins on new releases. Demo content.</p></div>
+  <div class="promo"><span class="k">VIP club</span><p>Personal account manager and faster withdrawals. Demo content.</p></div>
+ </div>
+
+ <section class="support" id="support" aria-labelledby="sh">
+  <div><h3 id="sh">Need help?</h3><p>Questions about deposits, withdrawals, bonuses or your account? Our team answers in your language. Tap the bubble in the corner or the button here.</p></div>
+  <button class="btn gold" type="button" data-sac-open>Open live chat</button>
+ </section>
+ <div class="faq">
+  <details><summary>My deposit has not arrived</summary><p>Open the live chat with your player ID and the payment time. An agent checks it with you.</p></details>
+  <details><summary>How long do withdrawals take?</summary><p>It depends on the method. The live chat team can tell you the status of yours.</p></details>
+  <details><summary>Can I talk in my language?</summary><p>Yes. When you open the chat, choose Tiếng Việt, Roman Urdu, English or 中文.</p></details>
+ </div>
+</main>
+
+<footer><div class="wrap">
+ <div class="frow"><span class="age">18+</span><span>Demonstration website for testing the SAC customer-service widget. No real money, no registration, no real games. Play responsibly.</span></div>
+ <div>© Orbita Play (fictional brand) · Test site</div>
+</div></footer>
+
+<div class="notice" id="notice" hidden></div>
+
+<script src="sac-config.js"></script>
+<script>
+{
+const $=s=>document.querySelector(s);
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let nt;const note=m=>{const n=$('#notice');n.textContent=m;n.hidden=false;clearTimeout(nt);nt=setTimeout(()=>n.hidden=true,2800)};
+
+/* ---- SAC server and line (config file, ?sac= / ?linha= in the URL, or saved choice) ---- */
+const q=new URLSearchParams(location.search);
+if(q.get('sac'))ls.set('sac_server',q.get('sac'));
+if(q.get('linha'))ls.set('sac_line',q.get('linha'));
+const SRV=String(ls.get('sac_server')||window.SAC_SERVER||'').trim().replace(/\/+$/,'');
+const LINE=String(ls.get('sac_line')||window.SAC_LINE||'7987').replace(/[^A-Za-z0-9-]/g,'');
+$('#tSrv').textContent=SRV||'não configurado';
+$('#tLine').innerHTML=[...new Set([LINE,'7987','8557'])].map(l=>`<option ${l===LINE?'selected':''}>${esc(l)}</option>`).join('');
+$('#tLine').addEventListener('change',e=>{ls.set('sac_line',e.target.value);location.reload()});
+
+/* ---- demo player (logged in / out) ---- */
+const PLAYER={id:'PLR-10293',nome:'Demo Player'};
+let logged=ls.get('demo_logged')==='1';
+function renderAcct(){$('#acct').innerHTML=logged
+ ?`<div class="pl"><span>DP</span><div><small>Player ID ${PLAYER.id}</small><b>${PLAYER.nome}</b></div></div><button class="btn ghost" type="button" id="logout">Log out</button>`
+ :`<button class="btn ghost" type="button" id="login">Log in (demo)</button><button class="btn gold" type="button" id="login2">Sign up</button>`}
+renderAcct();
+document.addEventListener('click',e=>{
+ if(e.target.closest('#login,#login2')){logged=true;ls.set('demo_logged','1');renderAcct();if(window.SAC&&SAC.identify)SAC.identify(PLAYER);note('Logged in as Demo Player. The chat now knows your player ID.')}
+ if(e.target.closest('#logout')){logged=false;ls.set('demo_logged','0');renderAcct();note('Logged out (demo).')}
+ if(e.target.closest('[data-sac-open]')||e.target.closest('#tOpen')){if(window.SAC&&SAC.open)SAC.open();else note('Widget not loaded. Configure the SAC server first.')}
+ if(e.target.closest('#tId')){if(window.SAC&&SAC.identify){SAC.identify(PLAYER);note('SAC.identify sent: '+PLAYER.id)}else note('Widget not loaded.')}
+});
+$('#tLang').addEventListener('change',e=>{if(e.target.value&&window.SAC&&SAC.setLanguage){SAC.setLanguage(e.target.value);note('SAC.setLanguage("'+e.target.value+'")')}e.target.value=''});
+
+/* ---- games (generated artwork, no real games) ---- */
+const CATS=[['all','All','<circle cx="12" cy="12" r="8"/>'],['slots','Slots','<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M9 5v14M15 5v14"/>'],['live','Live casino','<circle cx="12" cy="12" r="3"/><path d="M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/>'],['table','Table games','<path d="M4 8h16v8H4zM8 16v4M16 16v4"/>'],['crash','Crash','<path d="M4 18 10 11l4 3 6-8"/><path d="M16 6h4v4"/>']];
+const G=[['Nebula Fortune','slots','Orbit Studio',96.5,['#7b5cff','#2a1f6b'],'star'],['Golden Comet','slots','Orbit Studio',96.1,['#ffc94d','#8a4b00'],'comet'],['Dragon Pearl','slots','Lotus Games',95.8,['#2fd3c0','#0b4d46'],'pearl'],['Lucky Lantern','slots','Lotus Games',96.3,['#ff5c9a','#5a0b2a'],'lantern'],
+ ['Saturn Roulette','live','Live Orbit',97.3,['#ff8a3d','#5a2400'],'wheel'],['Neon Baccarat','live','Live Orbit',98.9,['#4dd2ff','#0b3a5a'],'cards'],['Speed Blackjack','table','Table Lab',99.4,['#5cff8d','#0b4d22'],'cards'],['Meteor Poker','table','Table Lab',98.1,['#c77dff','#3d1a5a'],'cards'],
+ ['Rocket Rush','crash','Crashpad',97.0,['#ff5c5c','#4d0b0b'],'rocket'],['Aviator Nova','crash','Crashpad',97.0,['#ffd23d','#5a4a00'],'rocket'],['Mega Moon','slots','Orbit Studio',96.0,['#9aa0ff','#20235a'],'moon'],['Jade Tiger','slots','Lotus Games',96.7,['#3dff9e','#0b4d2e'],'pearl']];
+const ART={star:'<path d="M100 40l14 34 36 3-27 23 9 35-32-19-32 19 9-35-27-23 36-3z" fill="#fff" opacity=".9"/>',comet:'<circle cx="122" cy="70" r="24" fill="#fff"/><path d="M104 84 40 150" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".45"/>',
+ pearl:'<circle cx="100" cy="92" r="40" fill="#fff" opacity=".9"/><circle cx="86" cy="78" r="12" fill="#fff"/>',lantern:'<rect x="70" y="50" width="60" height="80" rx="26" fill="#fff" opacity=".9"/><path d="M100 30v20M100 130v24" stroke="#fff" stroke-width="5"/>',
+ wheel:'<circle cx="100" cy="92" r="48" fill="none" stroke="#fff" stroke-width="10"/><circle cx="100" cy="92" r="10" fill="#fff"/><path d="M100 44v96M52 92h96M66 58l68 68M134 58l-68 68" stroke="#fff" stroke-width="4" opacity=".7"/>',
+ cards:'<rect x="62" y="46" width="52" height="74" rx="8" fill="#fff" opacity=".7" transform="rotate(-12 88 83)"/><rect x="86" y="50" width="52" height="74" rx="8" fill="#fff" transform="rotate(10 112 87)"/>',
+ rocket:'<path d="M100 36c22 18 26 52 14 82H86C74 88 78 54 100 36z" fill="#fff"/><circle cx="100" cy="72" r="9" fill="#0005"/><path d="M90 120l10 26 10-26" fill="#ffc94d"/>',
+ moon:'<circle cx="100" cy="88" r="44" fill="#fff" opacity=".9"/><circle cx="118" cy="76" r="40" fill="#20235a"/>'};
+let cat='all';
+function render(){
+ $('#cats').innerHTML=CATS.map(([k,l,ic])=>`<button role="tab" aria-selected="${k===cat}" class="${k===cat?'on':''}" data-cat="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${ic}</svg>${l}</button>`).join('');
+ const L=G.filter(g=>cat==='all'||g[1]===cat);$('#gcount').textContent=L.length+' games';
+ $('#grid').innerHTML=L.map(g=>`<button class="game" type="button" data-game="${esc(g[0])}"><svg viewBox="0 0 200 267" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g${esc(g[0]).replace(/\W/g,'')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${g[4][0]}"/><stop offset="1" stop-color="${g[4][1]}"/></linearGradient></defs><rect width="200" height="267" fill="url(#g${esc(g[0]).replace(/\W/g,'')})"/><circle cx="170" cy="30" r="60" fill="#fff" opacity=".08"/>${ART[g[5]]}<rect y="170" width="200" height="97" fill="#000" opacity=".25"/></svg><span class="rtp">RTP ${g[3]}%</span><b>${esc(g[0])}</b><small>${esc(g[2])}</small><span class="play">Demo only</span></button>`).join('')}
+render();
+document.addEventListener('click',e=>{const c=e.target.closest('[data-cat]');if(c){cat=c.dataset.cat;render()}const g=e.target.closest('[data-game]');if(g)note(g.dataset.game+' is a demo tile. Use the chat bubble to test support.')});
+
+/* ---- SAC widget: exactly what a real site does, with the address from the config ---- */
+if(!SRV){$('#setup').hidden=false}else{
+ window.SAC=window.SAC||{};if(logged)window.SAC.jogador=PLAYER;
+ const s=document.createElement('script');s.src=SRV+'/widget.js';s.async=true;
+ s.setAttribute('data-linha',LINE);s.setAttribute('data-idioma','auto');s.setAttribute('data-posicao','direita');
+ s.onerror=()=>{$('#setup').hidden=false;$('#setup').innerHTML='<b>Could not load the widget from '+esc(SRV)+'.</b> Check the address and that the SAC is online.'};
+ document.body.appendChild(s)}
+}
+</script>
+</body>
+</html>
