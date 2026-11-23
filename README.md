@@ -4,21 +4,22 @@ Site de iGaming **fictício**, feito só para testar o widget de atendimento do 
 
 ## Como abrir
 
-1. Ative o GitHub Pages: **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
-2. Abra o site informando o endereço do seu SAC no Railway:
+**Link:** https://yamargo.github.io/teswebsite/
 
-   ```
-   https://yamargo.github.io/teswebsite/?sac=https://SEU-SAC.up.railway.app
-   ```
+O GitHub Pages precisa estar ativado em **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
 
-   O endereço fica salvo no navegador. Nas próximas vezes, basta abrir `https://yamargo.github.io/teswebsite/`.
+### Modo teste (padrão)
 
-Para deixar o endereço fixo para todo mundo, edite `sac-config.js`:
+O site usa o SAC de teste publicado em https://yamargo.github.io/sacia/. Como os dois ficam no mesmo domínio, o chat e o SAC trocam dados pelo próprio navegador. Para testar:
 
-```js
-window.SAC_SERVER = 'https://SEU-SAC.up.railway.app';
-window.SAC_LINE = '7987';
-```
+1. Abra https://yamargo.github.io/sacia/ e entre como `god@sac.local` / `Sac@2026`.
+2. Crie um agente da linha 7987.
+3. Em outra aba do **mesmo navegador**, entre com esse agente.
+4. Em mais uma aba, abra https://yamargo.github.io/teswebsite/ e fale pelo balão. O chat chega para o agente.
+
+### Com o servidor real (Railway)
+
+Abra `https://yamargo.github.io/teswebsite/?sac=https://SEU-SAC.up.railway.app` ou preencha `SAC_SERVER` em `sac-config.js`. Assim pessoas em computadores diferentes se falam.
 
 ## O que testar
 

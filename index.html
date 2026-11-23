@@ -87,7 +87,8 @@ footer .wrap{display:grid;gap:12px}
 <body>
 <div class="tbar" role="region" aria-label="Painel de teste do SAC"><div class="wrap">
  <b>Painel de teste do SAC</b>
- <span>Servidor: <code id="tSrv">—</code></span>
+ <span>SAC: <code id="tSrv">—</code></span>
+ <a id="tSac" href="#" target="_blank" rel="noopener" style="color:inherit;font-weight:700">Abrir o SAC</a>
  <span>Linha: <select id="tLine" aria-label="Linha"></select></span>
  <span class="sp"></span>
  <button type="button" id="tOpen">SAC.open()</button>
@@ -174,7 +175,9 @@ if(q.get('sac'))ls.set('sac_server',q.get('sac'));
 if(q.get('linha'))ls.set('sac_line',q.get('linha'));
 const SRV=String(ls.get('sac_server')||window.SAC_SERVER||'').trim().replace(/\/+$/,'');
 const LINE=String(ls.get('sac_line')||window.SAC_LINE||'7987').replace(/[^A-Za-z0-9-]/g,'');
-$('#tSrv').textContent=SRV||'não configurado';
+const PROTO=String(window.SAC_PROTOTYPE||'/sacia/');
+$('#tSrv').textContent=SRV||'teste (GitHub Pages, mesmo navegador)';
+$('#tSac').href=SRV?SRV+'/':PROTO;
 $('#tLine').innerHTML=[...new Set([LINE,'7987','8557'])].map(l=>`<option ${l===LINE?'selected':''}>${esc(l)}</option>`).join('');
 $('#tLine').addEventListener('change',e=>{ls.set('sac_line',e.target.value);location.reload()});
 
@@ -213,11 +216,11 @@ render();
 document.addEventListener('click',e=>{const c=e.target.closest('[data-cat]');if(c){cat=c.dataset.cat;render()}const g=e.target.closest('[data-game]');if(g)note(g.dataset.game+' is a demo tile. Use the chat bubble to test support.')});
 
 /* ---- SAC widget: exactly what a real site does, with the address from the config ---- */
-if(!SRV){$('#setup').hidden=false}else{
+{
  window.SAC=window.SAC||{};if(logged)window.SAC.jogador=PLAYER;
- const s=document.createElement('script');s.src=SRV+'/widget.js';s.async=true;
+ const s=document.createElement('script');s.src=SRV?SRV+'/widget.js':PROTO.replace(/\/?$/,'/')+'prototype/widget.js';s.async=true;
  s.setAttribute('data-linha',LINE);s.setAttribute('data-idioma','auto');s.setAttribute('data-posicao','direita');
- s.onerror=()=>{$('#setup').hidden=false;$('#setup').innerHTML='<b>Could not load the widget from '+esc(SRV)+'.</b> Check the address and that the SAC is online.'};
+ s.onerror=()=>{$('#setup').hidden=false;$('#setup').innerHTML='<b>Could not load the widget from '+esc(s.src)+'.</b> Check the address and that the SAC is online.'};
  document.body.appendChild(s)}
 }
 </script>
